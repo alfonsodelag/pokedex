@@ -1,28 +1,30 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
-function CaughtPokemon(props) {
+const CaughtPokemon = (props) => {
     const [caught, setCaught] = useState([]);
-    const [num, setRandomNum] = useState(1)
+    const [num, setNum] = useState("001");
 
     const catchPokemon = () => {
-        setCaught([...caught, 'newpoke'])
+        setCaught([...caught, 'newpoke']);
     }
-
-    // const randomPokemon = () => {
-    //     setRandomPokemon();
-    // }
 
     const generateRandomId = () => {
-        let randomNum = "0" + Math.round(Math.random() * 100);
-        setRandomNum(randomNum);
+        const randomNum = Math.round(Math.random() * 100);
+        if (randomNum < 10) {
+            setNum(`00${randomNum}`);
+        } else if (randomNum >= 10) {
+            setNum(`0${randomNum}`);
+        }
     }
+
+    const caughtPokemonList = caught.map((pokemon, key) => <li key={key}>{pokemon}</li>)
 
     return (
         <div>
             <p>Caught {caught.length} Pokemon on  {props.date}</p>
             <button onClick={catchPokemon}>Catch Pokémon!</button>
             <ul>
-                {caught.map((pokemon, key) => <li key={key}>{pokemon}</li>)}
+                {caughtPokemonList}
             </ul>
             <button onClick={generateRandomId}>Generate a Random Pokemon!</button>
             <p>Random number is {num}</p>
